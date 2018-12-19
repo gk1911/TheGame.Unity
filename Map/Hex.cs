@@ -1,10 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-// Defines positioning of HexTiles in world
+// Defines attributes of HexTiles
 public class Hex
 {
+	public GameObject HexGameObject;
+
 	// Q + R + S = 0
 	// S = -(Q + R)
 	public readonly int Q; // Column
@@ -32,7 +32,7 @@ public class Hex
 		return new Vector3(horiz * (Q + (R % 2 / 2f)), 0, vert * R);
 	}
 
-	public int Distance(Hex hex)
+	public int DistanceFrom(Hex hex)
 	{
 		return Mathf.Max(Mathf.Abs(Q - hex.Q), Mathf.Abs(R - hex.R), Mathf.Abs(S - hex.S));
 	}

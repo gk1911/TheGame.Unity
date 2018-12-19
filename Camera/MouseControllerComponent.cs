@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class CameraMouseController : MonoBehaviour
+public class MouseControllerComponent : MonoBehaviour
 {
 	[SerializeField]
 	private float minDistanceFromGround;
@@ -13,7 +11,7 @@ public class CameraMouseController : MonoBehaviour
 	private Vector3 lastMousePosition;
 
 	// Update is called once per frame
-	void Update()
+	private void Update()
 	{
 		// camera dragging
 		Vector3 mousePos = getMousePosition();
