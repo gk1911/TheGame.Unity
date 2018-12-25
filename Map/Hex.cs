@@ -20,7 +20,7 @@ public class Hex
 		S = -(q + r);
 	}
 
-	public Vector3 Position()
+	public Vector3 GetPosition()
 	{
 		float radius = 1f;
 		float hight = radius * 2;
@@ -32,7 +32,7 @@ public class Hex
 		return new Vector3(horiz * (Q + (R % 2 / 2f)), 0, vert * R);
 	}
 
-	public int DistanceFrom(Hex hex)
+	public int GetDistanceFrom(Hex hex)
 	{
 		return Mathf.Max(Mathf.Abs(Q - hex.Q), Mathf.Abs(R - hex.R), Mathf.Abs(S - hex.S));
 	}
