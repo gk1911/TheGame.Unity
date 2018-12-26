@@ -2,15 +2,23 @@
 
 public class Unit
 {
-	public GameObject UnitGameObject;
+	private GameObject _gameObject;
+	public GameObject GameObject
+	{
+		get { return _gameObject; }
+		set {
+			// only allow set if GameObject is not a Prefab
+			if (_gameObject == null || _gameObject.scene.name != "") {
+				_gameObject = value;
+			}
+		}
+	}
 
-	private Hex hex;
-	private string name;
+	public readonly string name;
 	private int hp;
 
-	public Unit(Hex hex, string name)
+	public Unit(string name)
 	{
-		this.hex = hex;
 		this.name = name;
 		hp = 100;
 	}
@@ -18,9 +26,9 @@ public class Unit
 	public void DoTurn()
 	{
 		// move me one tile to the right
-		Hex oldHex = hex;
-		Hex newHex = HexMap.Instance.GetHexAt(oldHex.Q + 1, oldHex.R);
-		hex = newHex;
+		//Hex oldHex = hex;
+		//Hex newHex = HexMap.Instance.GetHexAt(oldHex.Q + 1, oldHex.R);
+		//hex = newHex;
 	}
 
 	public void AdjustHP(int amount)

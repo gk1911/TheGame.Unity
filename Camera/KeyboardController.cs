@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
-public class KeyboardControllerComponent : MonoBehaviour
+public class KeyboardController : MonoBehaviour
 {
 	[SerializeField]
-	private int cameraSpeed = 15;
+	private int cameraSpeed;
 
 	// Update is called once per frame
 	private void Update()

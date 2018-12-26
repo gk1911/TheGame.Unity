@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class MouseControllerComponent : MonoBehaviour
+public class MouseController : MonoBehaviour
 {
 	[SerializeField]
 	private float minDistanceFromGround;

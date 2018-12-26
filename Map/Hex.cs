@@ -1,9 +1,18 @@
 ﻿using UnityEngine;
 
-// Defines attributes of HexTiles
 public class Hex
 {
-	public GameObject HexGameObject;
+	private GameObject _gameObject;
+	public GameObject GameObject
+	{
+		get { return _gameObject; }
+		set {
+			// only allow set if GameObject is not a Prefab
+			if (_gameObject == null || _gameObject.scene.name != "") {
+				_gameObject = value;
+			}
+		}
+	}
 
 	// Q + R + S = 0
 	// S = -(Q + R)
@@ -32,7 +41,7 @@ public class Hex
 		return new Vector3(horiz * (Q + (R % 2 / 2f)), 0, vert * R);
 	}
 
-	public int GetDistanceFrom(Hex hex)
+	public int GetDistance(Hex hex)
 	{
 		return Mathf.Max(Mathf.Abs(Q - hex.Q), Mathf.Abs(R - hex.R), Mathf.Abs(S - hex.S));
 	}
