@@ -2,17 +2,8 @@
 
 public class Unit
 {
-	private GameObject _gameObject;
-	public GameObject GameObject
-	{
-		get { return _gameObject; }
-		set {
-			// only allow set if GameObject is not a Prefab
-			if (_gameObject == null || _gameObject.scene.name != "") {
-				_gameObject = value;
-			}
-		}
-	}
+	private static long nextId = 0;
+	public long Id { get; private set; }
 
 	public readonly string name;
 	private int hp;
