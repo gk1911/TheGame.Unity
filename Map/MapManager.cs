@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class MapManager : MonoBehaviour
@@ -11,7 +12,10 @@ public class MapManager : MonoBehaviour
 	private readonly int numColumns = 20;
 	private readonly int numRows = 20;
 
-	private GameObject root;
+	private GameObject hexRoot;
+	private GameObject unitRoot;
+	private GameObject objectRoot;
+
 	private List<Hex> hexes = new List<Hex>();
 
 	private MapManager()
@@ -23,13 +27,15 @@ public class MapManager : MonoBehaviour
 
 	private void Awake()
 	{
-		root = new GameObject("Map");
+		hexRoot = new GameObject("Map");
+		unitRoot = new GameObject("Units");
+		objectRoot = new GameObject("Objects");
 		GenerateMap();
 	}
 
 	private void Start()
 	{
-		UnitManager.Instance.SpawnUnit(new Unit("mainGuy"), 5, 5);
+		new MainGuy().Spawn(5, 5);
 	}
 
 	private void GenerateMap()
@@ -44,13 +50,24 @@ public class MapManager : MonoBehaviour
 	private void SpawnHex(Hex hex)
 	{
 		hexes.Add(hex);
-		GameObject prefab = hexPrefabs[Random.Range(0, hexPrefabs.Count)];
-		hex.GameObject = Instantiate(prefab, hex.GetPosition(), Quaternion.identity, root.transform);
+		GameObject prefab = hexPrefabs[UnityEngine.Random.Range(0, hexPrefabs.Count)];
+		hex.mapObject.View
+			= Instantiate(prefab, hex.GetPosition(), Quaternion.identity, hexRoot.transform).GetComponent<IUnitView>();
 		hex.GameObject.name = hex.Q + ", " + hex.R;
 	}
 
 	public Hex GetHex(int q, int r)
 	{
 		return hexes.Find(h => h.Q == q && h.R == r);
+	}
+
+	public IUnitView Spawn(Unit<IUnitView> mapObject)
+	{
+		if (mapObject.Hex == null) {
+			throw new ArgumentException(
+				"No Hex defined. To spawn a mapObject, please call mapObject.Spawn()", "mapObject");
+		}
+		mapObject.Hex.mapObject = mapObject;
+		return Instantiate(mapObject.View.Prefab, mapObject.Hex.View.gameObject.transform).GetComponent<IUnitView>();
 	}
 }

@@ -2,18 +2,9 @@
 
 public class Hex
 {
-	private GameObject _gameObject;
-	public GameObject GameObject
-	{
-		get { return _gameObject; }
-		set {
-			// only allow set if GameObject is not a Prefab
-			if (_gameObject == null || _gameObject.scene.name != "") {
-				_gameObject = value;
-			}
-		}
-	}
-
+	public HexView View { get; private set; }
+	public Unit<IUnitView> mapObject;
+	
 	// Q + R + S = 0
 	// S = -(Q + R)
 	public readonly int Q; // Column
