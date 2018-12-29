@@ -1,19 +1,26 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System;
 
 public class InputManager : MonoBehaviour
 {
-	// Use this for initialization
-	void Start()
-	{
+	public static InputManager Instance { get; private set; }
 
+	public event EventHandler SpacePressed;
+
+	private InputManager() { }
+
+	private void Awake()
+	{
+		if (Instance == null) {
+			Instance = this;
+		}
 	}
 
 	// Update is called once per frame
-	void Update()
+	private void Update()
 	{
 		if (Input.GetButtonDown("Jump")) {
-			UnitManager.Instance.MoveUnit(null, 1, 1);
+			SpacePressed(this, EventArgs.Empty);
 		}
 	}
 }

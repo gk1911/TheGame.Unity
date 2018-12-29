@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 
-// TODO: maybe simplify TView to IUnitView
-public abstract class Unit<TView> where TView : IUnitView
+public abstract class Unit
 {
 	private static long nextId = 0;
 	private readonly long id;
 
 	public Hex Hex { get; private set; }
-	public TView View { get; private set; }
+	public IUnitView View { get; private set; }
 
 	public string Name { get; protected set; }
 	public int Hp { get; protected set; }
@@ -29,45 +27,22 @@ public abstract class Unit<TView> where TView : IUnitView
 		if (Hex != null) {
 			throw new InvalidOperationException(string.Format("The Unit {0} is already spawned", this));
 		}
+		//if (!MapManager.Instance.units.Contains(hex)) {
+		//	throw new ArgumentException(string.Format("The Hex {0} is not part of the instantiated map", hex), "hex");
+		//}
+		if (hex.Unit != null) {
+			throw new InvalidOperationException(string.Format("The Hex {0} already has a Unit", hex));
+		}
+
 		Hex = hex;
-		try {
-			View = MapManager.Instance.Spawn((dynamic) this);
-		} catch (InvalidCastException e) {
-			throw new InvalidOperationException(string.Format(
-				"The IUnitView of the Unit {0} does not align with the IUnitView component on the corresponding prefab", this), e);
+		View = MapManager.Instance.SpawnUnit(this);
+		if (View == null) {
+			throw new InvalidOperationException("You tried to spawn a Unit which does not have an IUnitView on its prefab");
 		}
 	}
 
 	public void AdjustHP(int amount)
 	{
 		Hp += amount;
-	}
-
-	public override bool Equals(object obj)
-	{
-		var @object = obj as Unit<TView>;
-		return @object != null &&
-			   id == @object.id &&
-			   EqualityComparer<Hex>.Default.Equals(Hex, @object.Hex) &&
-			   EqualityComparer<TView>.Default.Equals(View, @object.View);
-	}
-
-	public override int GetHashCode()
-	{
-		var hashCode = -1684316558;
-		hashCode = hashCode * -1521134295 + id.GetHashCode();
-		hashCode = hashCode * -1521134295 + EqualityComparer<Hex>.Default.GetHashCode(Hex);
-		hashCode = hashCode * -1521134295 + EqualityComparer<TView>.Default.GetHashCode(View);
-		return hashCode;
-	}
-
-	public static bool operator ==(Unit<TView> object1, Unit<TView> object2)
-	{
-		return EqualityComparer<Unit<TView>>.Default.Equals(object1, object2);
-	}
-
-	public static bool operator !=(Unit<TView> object1, Unit<TView> object2)
-	{
-		return !(object1 == object2);
 	}
 }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-public class MainGuy : Unit<MainGuyView>
+public class MainGuy : Unit
 {
 	public MainGuy()
 	{

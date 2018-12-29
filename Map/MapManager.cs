@@ -6,54 +6,50 @@ public class MapManager : MonoBehaviour
 {
 	public static MapManager Instance { get; private set; }
 
-	[SerializeField]
-	private List<GameObject> hexPrefabs;
-
 	private readonly int numColumns = 20;
 	private readonly int numRows = 20;
 
 	private GameObject hexRoot;
 	private GameObject unitRoot;
-	private GameObject objectRoot;
 
 	private List<Hex> hexes = new List<Hex>();
+	private List<Unit> units = new List<Unit>();
 
-	private MapManager()
+	private MapManager() { }
+
+	private void Awake()
 	{
 		if (Instance == null) {
 			Instance = this;
 		}
-	}
-
-	private void Awake()
-	{
-		hexRoot = new GameObject("Map");
+		hexRoot = new GameObject("Hexes");
 		unitRoot = new GameObject("Units");
-		objectRoot = new GameObject("Objects");
 		GenerateMap();
 	}
 
 	private void Start()
 	{
-		new MainGuy().Spawn(5, 5);
+		InputManager.Instance.SpacePressed += MoveUnit;
+
+		//new MainGuy().Spawn(5, 5);
 	}
 
 	private void GenerateMap()
 	{
-		for (int column = 0; column < numColumns; column++) {
-			for (int row = 0; row < numRows; row++) {
-				SpawnHex(new Hex(column, row));
+		// go through columns and rows
+		for (int q = 0; q < numColumns; q++) {
+			for (int r = 0; r < numRows; r++) {
+				// spawn a grassland hex or a water hex randomly
+				switch (UnityEngine.Random.Range(0, 1)) {
+					case 0:
+						new Grassland(q, r).Spawn();
+						break;
+					case 1:
+						new Water(q, r).Spawn();
+						break;
+				}
 			}
 		}
-	}
-
-	private void SpawnHex(Hex hex)
-	{
-		hexes.Add(hex);
-		GameObject prefab = hexPrefabs[UnityEngine.Random.Range(0, hexPrefabs.Count)];
-		hex.mapObject.View
-			= Instantiate(prefab, hex.GetPosition(), Quaternion.identity, hexRoot.transform).GetComponent<IUnitView>();
-		hex.GameObject.name = hex.Q + ", " + hex.R;
 	}
 
 	public Hex GetHex(int q, int r)
@@ -61,13 +57,31 @@ public class MapManager : MonoBehaviour
 		return hexes.Find(h => h.Q == q && h.R == r);
 	}
 
-	public IUnitView Spawn(Unit<IUnitView> mapObject)
+	// i need the view to know which prefab to spawn,
+	// but i need an already spawned gameObject to get a view instance...
+	public IHexView SpawnHex(Hex hex)
 	{
-		if (mapObject.Hex == null) {
+		// error handling, ...
+
+		hexes.Add(hex);
+		return Instantiate(hex.View.GetPrefab(), hexRoot.transform).GetComponent<IHexView>();
+	}
+
+	public IUnitView SpawnUnit(Unit unit)
+	{
+		if (unit.Hex == null) {
 			throw new ArgumentException(
-				"No Hex defined. To spawn a mapObject, please call mapObject.Spawn()", "mapObject");
+				"No Hex defined. To spawn a Unit, please call unit.Spawn()", "unit");
 		}
-		mapObject.Hex.mapObject = mapObject;
-		return Instantiate(mapObject.View.Prefab, mapObject.Hex.View.gameObject.transform).GetComponent<IUnitView>();
+
+		units.Add(unit);
+		unit.Hex.SetUnit(unit);
+		return Instantiate(unit.View.Prefab, unitRoot.transform).GetComponent<IUnitView>();
+	}
+
+	private void MoveUnit(object sender, EventArgs e)
+	{
+		Unit unit = new MainGuy();
+		Debug.Log(string.Format("Someones gotta move. {0}", unit));
 	}
 }

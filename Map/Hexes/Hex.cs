@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
-public class Hex
+public abstract class Hex
 {
-	public HexView View { get; private set; }
-	public Unit<IUnitView> mapObject;
+	public Unit Unit { get; private set; }
+	public IHexView View { get; private set; }
 	
 	// Q + R + S = 0
 	// S = -(Q + R)
@@ -13,11 +13,16 @@ public class Hex
 
 	private static readonly float WIDTH_MULTIPLIER = Mathf.Sqrt(3) / 2;
 
-	public Hex(int q, int r)
+	protected Hex(int q, int r)
 	{
 		Q = q;
 		R = r;
 		S = -(q + r);
+	}
+
+	public void Spawn()
+	{
+		MapManager.Instance.SpawnHex(this);
 	}
 
 	public Vector3 GetPosition()
@@ -35,5 +40,11 @@ public class Hex
 	public int GetDistance(Hex hex)
 	{
 		return Mathf.Max(Mathf.Abs(Q - hex.Q), Mathf.Abs(R - hex.R), Mathf.Abs(S - hex.S));
+	}
+
+	public void SetUnit(Unit unit)
+	{
+		// TODO check arguments, object state, ...
+		Unit = unit;
 	}
 }
