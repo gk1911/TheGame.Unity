@@ -1,0 +1,12 @@
+{
+    "name": "UnityScripts",
+    "references": [
+        "Core",
+        "Impl",
+        "Model"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}

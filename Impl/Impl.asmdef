@@ -1,0 +1,10 @@
+{
+    "name": "Impl",
+    "references": [
+        "Model"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}
