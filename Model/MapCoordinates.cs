@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace gk1911.TheGame.Model
 {
-	public struct MapCoordinates
+	public class MapCoordinates
 	{
 		// Q + R + S = 0
 		// S = -(Q + R)

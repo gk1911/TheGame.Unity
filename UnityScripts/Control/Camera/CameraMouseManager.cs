@@ -5,9 +5,9 @@ namespace gk1911.TheGame.UnityScripts.Control
 	internal class CameraMouseManager : MonoBehaviour
 	{
 		[SerializeField]
-		private float minDistanceFromGround;
+		private float minDistanceFromGround = default;
 		[SerializeField]
-		private float maxDistanceFromGround;
+		private float maxDistanceFromGround = default;
 
 		private bool isDraggingCamera = false;
 		private Vector3 lastMousePosition;

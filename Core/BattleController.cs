@@ -9,7 +9,7 @@ namespace gk1911.TheGame.Control
 	{
 		public event EventHandler<Unit> UnitSpawned;
 		public event EventHandler<EffectActivatedEventArgs> EffectActivated;
-		
+
 		private readonly Map map;
 		private readonly Dictionary<Hex, Unit> unitsByHex = new Dictionary<Hex, Unit>();
 
@@ -22,7 +22,7 @@ namespace gk1911.TheGame.Control
 				SpawnUnit(entry.Value, entry.Key);
 			}
 		}
-		
+
 		private void SpawnUnit(Unit unit, MapCoordinates cords)
 		{
 			Hex hex = GetHex(cords);
@@ -31,16 +31,12 @@ namespace gk1911.TheGame.Control
 
 		private void SpawnUnit(Unit unit, Hex hex)
 		{
-			// TODO: check if hex exists 
 			unitsByHex.Add(hex, unit);
 			UnitSpawned?.Invoke(this, unit);
 		}
 
 		#region public queries
-		public Hex GetHex(MapCoordinates cords)
-		{
-			return map.Hexes[cords.Q, cords.R];
-		}
+		public Hex GetHex(MapCoordinates cords) => map.Hexes[cords.Q, cords.R];
 
 		public Hex GetHex(Unit unit)
 		{
@@ -52,16 +48,9 @@ namespace gk1911.TheGame.Control
 			return null;
 		}
 
-		public Unit GetUnit(Hex hex)
-		{
-			return unitsByHex[hex];
-		}
+		public Unit GetUnit(Hex hex) => unitsByHex[hex];
 
-		public bool IsSpawned(Hex hex)
-		{
-			// if check, no ternaries!
-			return hex != null ? map.Contains(hex) : false;
-		}
+		public bool IsSpawned(Hex hex) => map.Contains(hex);
 
 		public bool IsSpawned(Unit unit) => unitsByHex.ContainsValue(unit);
 		#endregion

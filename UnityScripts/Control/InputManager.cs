@@ -22,7 +22,8 @@ namespace gk1911.TheGame.UnityScripts.Control
 		private void Update()
 		{
 			if (Input.GetButtonDown("Jump")) {
-				SpacePressed(this, EventArgs.Empty);
+				Debug.Log("Space pressed");
+				SpacePressed?.Invoke(this, EventArgs.Empty);
 			}
 		}
 	}
