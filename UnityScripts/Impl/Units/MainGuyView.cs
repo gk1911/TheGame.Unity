@@ -4,6 +4,6 @@ namespace gk1911.TheGame.UnityScripts.Impl.Units
 {
 	internal class MainGuyView : UnitView
 	{
-		
+
 	}
 }

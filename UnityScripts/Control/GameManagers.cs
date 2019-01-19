@@ -9,7 +9,7 @@ namespace gk1911.TheGame.UnityScripts.Control
 
 		static GameManagers()
 		{
-			GameObject gameManager = GameObject.Find("GameManager");
+			GameObject gameManager = GameObject.Find("GameManagers");
 			Battle = gameManager.GetComponent<BattleManager>();
 			Input = gameManager.GetComponent<InputManager>();
 		}

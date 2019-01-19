@@ -4,10 +4,17 @@ using gk1911.TheGame.Model;
 
 namespace gk1911.TheGame.UnityScripts.Model
 {
-	public class HexView : MonoBehaviour
+	internal class HexView : MonoBehaviour
 	{
+		public Material newMaterial;
+
 		public Hex Hex { get; set; }
 
 		public HexView() { }
+
+		public void ChangeMaterial()
+		{
+			transform.GetComponentInChildren<Renderer>().material = newMaterial;
+		}
 	}
 }

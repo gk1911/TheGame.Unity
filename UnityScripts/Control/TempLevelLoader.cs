@@ -5,7 +5,7 @@ using gk1911.TheGame.Impl.Levels;
 
 namespace gk1911.TheGame.UnityScripts.Control
 {
-	public class TempLevelLoader : MonoBehaviour
+	internal class TempLevelLoader : MonoBehaviour
 	{
 		private TempLevelLoader() { }
 

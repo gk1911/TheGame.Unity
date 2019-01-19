@@ -2,7 +2,7 @@
 
 namespace gk1911.TheGame.Impl.Hexes
 {
-	class Grassland : Hex
+ internal class Grassland : Hex
 	{
 		public Grassland(int q, int r) : base(q, r)
 		{

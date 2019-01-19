@@ -15,7 +15,8 @@ namespace gk1911.TheGame.Impl.Maps
 			Random random = new Random();
 			for (int q = 0; q < Columns; q++) {
 				for (int r = 0; r < Rows; r++) {
-					if (random.Next(0, 2) == 0) {
+					int rnd = random.Next(0, 2);
+					if (rnd == 0) {
 						Hexes[q, r] = new Grassland(q, r);
 					} else {
 						Hexes[q, r] = new Water(q, r);
