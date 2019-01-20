@@ -19,10 +19,14 @@ namespace gk1911.TheGame.UnityScripts.Control
 
 		private BattleManager() { }
 
-		private void Start()
+		private void Awake()
 		{
 			hexRoot = GameObject.Find("Map");
 			unitRoot = GameObject.Find("Units");
+		}
+
+		private void Start()
+		{
 			GameController.LevelLoaded += OnLevelLoaded;
 			GameManagers.Input.ClickInput += OnTransformClicked;
 		}

@@ -6,7 +6,8 @@ namespace gk1911.TheGame.UnityScripts.Model
 {
 	internal class HexView : MonoBehaviour
 	{
-		public Material newMaterial;
+		[SerializeField]
+		private Material newMaterial = default;
 
 		public Hex Hex { get; set; }
 

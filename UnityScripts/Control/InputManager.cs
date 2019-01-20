@@ -32,14 +32,12 @@ namespace gk1911.TheGame.UnityScripts.Control
 			HandleClickInput();
 			HandleDragInput();
 			HandleZoomInput();
+			UpdateMouse();
 		}
 
 		private void HandleClickInput()
 		{
-			// whenever the left mouse button goes up,
-			// it is treated as a click at the position of the screen the mouse is currently at
-			// TODO: fix clicking when the button is released after a dragging motion 
-			if (mouse.Up) {
+			if (mouse.Up && !mouse.IsDragging) {
 				Transform target = new Raycaster().RaycastFromScreen(mouse.ScreenPosition, clickableLayers);
 				if (target != null) {
 					ClickInput?.Invoke(this, target);
@@ -49,24 +47,30 @@ namespace gk1911.TheGame.UnityScripts.Control
 
 		private void HandleDragInput()
 		{
-			if (mouse.IsDragging) {
+			if (mouse.IsDragging && mouse.WasMoved) {
 				DragInput?.Invoke(this, mouse.LastPosition - mouse.Position);
 				mouse.SavePosition();
-			}
-
-			if (mouse.Up) {
-				mouse.IsDragging = false;
-			} else if (mouse.Down) {
-				mouse.SavePosition();
-				mouse.IsDragging = true;
 			}
 		}
 
 		private void HandleZoomInput()
 		{
-			Vector3 direction = Camera.main.transform.position - mouse.Position;
-			Vector3 zoom = direction * mouse.Scrolled;
-			ZoomInput?.Invoke(this, zoom);
+			if (Mathf.Abs(mouse.Scrolled) > 0f) {
+				Vector3 direction = Camera.main.transform.position - mouse.Position;
+				Vector3 zoom = direction * mouse.Scrolled;
+				ZoomInput?.Invoke(this, zoom);
+			}
+		}
+
+		private void UpdateMouse()
+		{
+			if (mouse.Up) {
+				mouse.IsDragging = false;
+			} else if (mouse.Down) {
+				mouse.SavePosition();
+			} else if (mouse.IsDown && mouse.WasMoved) {
+				mouse.IsDragging = true;
+			}
 		}
 	}
 }
