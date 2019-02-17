@@ -2,11 +2,8 @@
 
 namespace gk1911.TheGame.Impl.Hexes
 {
- internal class Water : Hex
+	public class Water : Hex
 	{
-		public Water(int q, int r) : base(q, r)
-		{
-
-		}
+		public Water(int q, int r) => cords = new MapCoordinates(q, r);
 	}
 }

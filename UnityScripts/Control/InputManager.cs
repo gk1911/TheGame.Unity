@@ -1,29 +1,42 @@
 ﻿using System;
 
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using UnityEngine.Events;
 
 using gk1911.TheGame.UnityScripts.Model;
+using gk1911.TheGame.UnityScripts.Impl.UI;
+using gk1911.TheGame.UnityScripts.Control.Util;
 
 namespace gk1911.TheGame.UnityScripts.Control
 {
 	internal class InputManager : MonoBehaviour
 	{
-		public event EventHandler<Transform> ClickInput;
-		public event EventHandler<Vector3> DragInput;
-		public event EventHandler<Vector3> ZoomInput;
+		public event Action<UiButton> ButtonPressed;
+		public event Action<Transform> ClickInput;
+		public event Action<Vector3> DragInput;
+		public event Action<Vector3> ZoomInput;
 
-		[SerializeField]
-		private LayerMask clickableLayers = default;
+		[SerializeField] private LayerMask clickableLayers = default;
+		[Space]
+		[SerializeField] private Button abilityBtn1 = default;
+		[SerializeField] private Button abilityBtn2 = default;
 
 		private Mouse mouse = new Mouse();
 
 		private InputManager() { }
 
-		private void Awake()
+		private void Awake() => TrafficLight.RoadUsers.Add(this);
+
+		private void Prep()
 		{
 			Input.simulateMouseWithTouches = true;
 			Input.multiTouchEnabled = false;
 			Input.backButtonLeavesApp = false;
+
+			abilityBtn1.onClick.AddListener(new UnityAction(delegate { ButtonPressed?.Invoke(UiButton.Ability1); }));
+			abilityBtn2.onClick.AddListener(new UnityAction(delegate { ButtonPressed?.Invoke(UiButton.Ability2); }));
 		}
 
 		// Update is called once per frame
@@ -37,10 +50,15 @@ namespace gk1911.TheGame.UnityScripts.Control
 
 		private void HandleClickInput()
 		{
+			// do nothing if player clicked on a UI element
+			if (EventSystem.current.IsPointerOverGameObject()) {
+				return;
+			}
+
 			if (mouse.Up && !mouse.IsDragging) {
 				Transform target = new Raycaster().RaycastFromScreen(mouse.ScreenPosition, clickableLayers);
 				if (target != null) {
-					ClickInput?.Invoke(this, target);
+					ClickInput?.Invoke(target);
 				}
 			}
 		}
@@ -48,7 +66,7 @@ namespace gk1911.TheGame.UnityScripts.Control
 		private void HandleDragInput()
 		{
 			if (mouse.IsDragging && mouse.WasMoved) {
-				DragInput?.Invoke(this, mouse.LastPosition - mouse.Position);
+				DragInput?.Invoke(mouse.LastPosition - mouse.Position);
 				mouse.SavePosition();
 			}
 		}
@@ -58,7 +76,7 @@ namespace gk1911.TheGame.UnityScripts.Control
 			if (Mathf.Abs(mouse.Scrolled) > 0f) {
 				Vector3 direction = Camera.main.transform.position - mouse.Position;
 				Vector3 zoom = direction * mouse.Scrolled;
-				ZoomInput?.Invoke(this, zoom);
+				ZoomInput?.Invoke(zoom);
 			}
 		}
 
@@ -68,8 +86,10 @@ namespace gk1911.TheGame.UnityScripts.Control
 				mouse.IsDragging = false;
 			} else if (mouse.Down) {
 				mouse.SavePosition();
-			} else if (mouse.IsDown && mouse.WasMoved) {
+				// don't initialize dragging if mouse is on a UI element
+			} else if (mouse.IsDown && mouse.WasMoved && !EventSystem.current.IsPointerOverGameObject()) {
 				mouse.IsDragging = true;
+				mouse.SavePosition();
 			}
 		}
 	}

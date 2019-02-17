@@ -9,7 +9,7 @@ namespace gk1911.TheGame.Impl.Levels
 		public Level1()
 		{
 			Map = new Level1Map();
-			UnitsByCords.Add(new MapCoordinates(5, 5), new MainGuy());
+			Units.Add(new MapCoordinates(5, 5), new MainGuy());
 		}
 	}
 }

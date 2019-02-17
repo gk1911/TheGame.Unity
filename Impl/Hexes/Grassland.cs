@@ -2,11 +2,8 @@
 
 namespace gk1911.TheGame.Impl.Hexes
 {
- internal class Grassland : Hex
+	public class Grassland : Hex
 	{
-		public Grassland(int q, int r) : base(q, r)
-		{
-
-		}
+		public Grassland(int q, int r) => cords = new MapCoordinates(q, r);
 	}
 }

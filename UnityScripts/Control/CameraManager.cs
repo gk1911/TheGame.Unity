@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using gk1911.TheGame.UnityScripts.Control.Util;
+using UnityEngine;
 
 namespace gk1911.TheGame.UnityScripts.Control
 {
@@ -6,14 +7,16 @@ namespace gk1911.TheGame.UnityScripts.Control
 	{
 		private CameraManager() { }
 
-		private void Start()
+		private void Awake() => TrafficLight.RoadUsers.Add(this);
+
+		private void Prep()
 		{
-			GameManagers.Input.DragInput += OnMapDragged;
-			GameManagers.Input.ZoomInput += OnMapZoomed;
+			GameManager.Input.DragInput += OnMapDragged;
+			GameManager.Input.ZoomInput += OnMapZoomed;
 		}
 
-		private void OnMapZoomed(object sender, Vector3 zoom) => transform.Translate(zoom, Space.World);
+		private void OnMapZoomed(Vector3 zoom) => transform.Translate(zoom, Space.World);
 
-		private void OnMapDragged(object sender, Vector3 drag) => transform.Translate(drag, Space.World);
+		private void OnMapDragged(Vector3 drag) => transform.Translate(drag, Space.World);
 	}
 }

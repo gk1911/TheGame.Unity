@@ -2,11 +2,6 @@
 {
 	public abstract class Hex
 	{
-		public MapCoordinates cords { get; }
-
-		protected Hex(int q, int r)
-		{
-			cords = new MapCoordinates(q, r);
-		}
+		public MapCoordinates cords { get; protected set; }
 	}
 }

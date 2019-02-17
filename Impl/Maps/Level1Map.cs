@@ -7,10 +7,14 @@ namespace gk1911.TheGame.Impl.Maps
 {
 	public class Level1Map : Map
 	{
-		public override int Columns { get; } = 10;
-		public override int Rows { get; } = 10;
-
 		public Level1Map()
+		{
+			Columns = 10;
+			Rows = 10;
+			GenerateMap();
+		}
+
+		private void GenerateMap()
 		{
 			Random random = new Random();
 			for (int q = 0; q < Columns; q++) {

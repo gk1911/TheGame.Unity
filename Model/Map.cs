@@ -4,18 +4,37 @@ namespace gk1911.TheGame.Model
 {
 	public abstract class Map
 	{
-		public abstract int Columns { get; }
-		public abstract int Rows { get; }
-
-		public Hex[,] Hexes { get; }
-
-		protected Map()
+		private int _columns;
+		public int Columns
 		{
-			if (Columns < 1 || Rows < 1) {
-				throw new InvalidOperationException("You need to define the Columns and Rows to be >= 1");
+			get => _columns;
+			protected set {
+				if (value < 1) {
+					throw new InvalidOperationException("The number of Columns must be greater than 0");
+				}
+				_columns = value;
+				if (_rows != 0) {
+					Hexes = new Hex[_columns, _rows];
+				}
 			}
-			Hexes = new Hex[Columns, Rows];
 		}
+
+		private int _rows;
+		public int Rows
+		{
+			get => _rows;
+			protected set {
+				if (value < 1) {
+					throw new InvalidOperationException("The number of Rows must be greater than 0");
+				}
+				_rows = value;
+				if (_columns != 0) {
+					Hexes = new Hex[_columns, _rows];
+				}
+			}
+		}
+
+		public Hex[,] Hexes { get; private set; }
 
 		public bool Contains(Hex hex)
 		{
