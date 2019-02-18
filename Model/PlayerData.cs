@@ -4,6 +4,6 @@ namespace gk1911.TheGame.Model
 {
 	public class PlayerData
 	{
-		public readonly Dictionary<MapCoordinates, Unit> Units = new Dictionary<MapCoordinates, Unit>();
+		public Dictionary<MapCoordinates, Unit> Units { get; } = new Dictionary<MapCoordinates, Unit>();
 	}
 }

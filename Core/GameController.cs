@@ -1,24 +1,19 @@
 ﻿using System;
 
 using gk1911.TheGame.Model;
+using gk1911.TheGame.Persistence;
 
-namespace gk1911.TheGame.Control
+namespace gk1911.TheGame.Core
 {
 	public static class GameController
 	{
-		public static PlayerData PlayerData { get; set; }
-		public static BattleController Battle { get; private set; }
-		
-		public static void LoadLevel(Level level)
+		public static PlayerData PlayerData { get; private set; } = new PlayerData();
+		public static BattleController Battle { get; private set; } = new BattleController();
+
+		public static void LoadLevel()
 		{
-			if (level is null) {
-				throw new ArgumentNullException($"{nameof(level)}");
-			} else if (PlayerData is null) {
-				throw new InvalidOperationException($"Can't load a {nameof(Level)} if {nameof(PlayerData)} is null");
-			} else if (Battle != null) {
-				throw new InvalidOperationException($"Can't load a {nameof(Level)} if {nameof(Battle)} is not null");
-			}
-			Battle = new BattleController();
+			Level level = LevelManager.GetLevel(PlayerData);
+			if (level is null) throw new InvalidOperationException($"Can't load a {nameof(Level)} if {nameof(level)} is null.");
 			Battle.LoadLevel(PlayerData, level);
 		}
 	}

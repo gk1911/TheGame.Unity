@@ -7,12 +7,11 @@ namespace gk1911.TheGame.Impl.Units
 {
 	public class MainGuy : Unit
 	{
-		public MainGuy() : base(
-			name: "Main Guy the Cool",
-			maxHp: 1000,
-			abilities: new List<Effect> {
-				new Fireball()
-			})
-		{ }
+		public MainGuy() : base(name: "Main Guy the Cool", maxHp: 1000)
+		{
+			Abilities.AddRange(new List<Effect> {
+				new Fireball(),
+			});
+		}
 	}
 }

@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 using gk1911.TheGame.Model;
 
-namespace gk1911.TheGame.Control
+namespace gk1911.TheGame.Core
 {
 	public class BattleController
 	{
-		public static event Action<Map> MapSpawned;
-		public static event Action<Unit> UnitSpawned;
-		public static event Action<Unit> UnitSelected;
+		public event Action<Map> MapSpawned;
+		public event Action<Unit> UnitSpawned;
+		public event Action<Unit> UnitSelected;
 
 		private Map _map;
 		public Map Map {
@@ -20,10 +20,7 @@ namespace gk1911.TheGame.Control
 			}
 		}
 
-		public Dictionary<Hex, Unit> UnitsByHex { get; } = new Dictionary<Hex, Unit>();
-
 		private Unit _selectedUnit;
-
 		public Unit SelectedUnit {
 			get => _selectedUnit;
 			set {
@@ -31,6 +28,8 @@ namespace gk1911.TheGame.Control
 				UnitSelected?.Invoke(SelectedUnit);
 			}
 		}
+
+		private readonly Dictionary<Hex, Unit> UnitsByHex = new Dictionary<Hex, Unit>();
 
 		public void LoadLevel(PlayerData playerData, Level level)
 		{
@@ -50,23 +49,15 @@ namespace gk1911.TheGame.Control
 			}
 		}
 
+		/// <summary>
+		/// Activate the <see cref="Effect"/> of the <see cref="SelectedUnit"/> at position <paramref name="index"/>.
+		/// </summary>
+		/// <param name="index"></param>
 		public void ActivateEffect(int index) => ActivateEffect(SelectedUnit.Abilities[index], SelectedUnit, SelectedUnit.Target);
 
 		private void ActivateEffect(Effect effect, Unit origin, Unit target)
 		{
 			target.Hp -= effect.Damage;
-		}
-
-		private void SpawnUnit(Unit unit, MapCoordinates cords)
-		{
-			Hex hex = GetHex(cords);
-			SpawnUnit(unit, hex);
-		}
-
-		private void SpawnUnit(Unit unit, Hex hex)
-		{
-			UnitsByHex.Add(hex, unit);
-			UnitSpawned?.Invoke(unit);
 		}
 
 		#region public queries
@@ -88,5 +79,18 @@ namespace gk1911.TheGame.Control
 
 		public bool IsSpawned(Unit unit) => UnitsByHex.ContainsValue(unit);
 		#endregion
+
+		private void SpawnUnit(Unit unit, MapCoordinates cords)
+		{
+			Hex hex = GetHex(cords);
+			SpawnUnit(unit, hex);
+		}
+
+		private void SpawnUnit(Unit unit, Hex hex)
+		{
+			UnitsByHex.Add(hex, unit);
+			UnitSpawned?.Invoke(unit);
+		}
+
 	}
 }

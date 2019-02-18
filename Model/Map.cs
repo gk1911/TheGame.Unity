@@ -5,8 +5,7 @@ namespace gk1911.TheGame.Model
 	public abstract class Map
 	{
 		private int _columns;
-		public int Columns
-		{
+		public int Columns {
 			get => _columns;
 			protected set {
 				if (value < 1) {
@@ -20,8 +19,7 @@ namespace gk1911.TheGame.Model
 		}
 
 		private int _rows;
-		public int Rows
-		{
+		public int Rows {
 			get => _rows;
 			protected set {
 				if (value < 1) {

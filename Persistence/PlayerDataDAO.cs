@@ -4,16 +4,13 @@ namespace gk1911.TheGame.Persistence
 {
 	public class PlayerDataDAO
 	{
-		public string PersistencePath;
+		public string PersistencePath { get; set; }
 
 		public void Serialize(PlayerData playerData)
 		{
 
 		}
 
-		public PlayerData Deserialize()
-		{
-			return new PlayerData();
-		}
+		public PlayerData Deserialize() => new PlayerData();
 	}
 }

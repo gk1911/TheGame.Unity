@@ -8,13 +8,12 @@ namespace gk1911.TheGame.Model
 		public static event Action<Unit> TargetChanged;
 		public static event Action<Unit> HpChanged;
 
-		protected Unit(string name, float maxHp, List<Effect> abilities = null)
+		protected Unit(string name, float maxHp)
 		{
 			id = nextId++;
 			_name = name;
 			_maxHp = maxHp;
 			_hp = MaxHp;
-			Abilities.AddRange(abilities);
 		}
 
 		private static int nextId = 0;

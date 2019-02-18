@@ -19,8 +19,6 @@ namespace gk1911.TheGame.Model
 		}
 
 		public int GetDistance(MapCoordinates cords)
-		{
-			return new int[] { Math.Abs(Q - cords.Q), Math.Abs(R - cords.R), Math.Abs(S - cords.S) }.Max();
-		}
+			=> new int[] { Math.Abs(Q - cords.Q), Math.Abs(R - cords.R), Math.Abs(S - cords.S) }.Max();
 	}
 }
