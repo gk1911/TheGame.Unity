@@ -8,9 +8,7 @@ namespace gk1911.TheGame.Model
 		public string Name {
 			get => _name;
 			protected set {
-				if (value.Length < 2) {
-					throw new ArgumentException("Name must be longer than 2 Characters");
-				}
+				if (value.Length < 2) throw new ArgumentException("Name must be longer than 2 Characters");
 				_name = value;
 			}
 		}

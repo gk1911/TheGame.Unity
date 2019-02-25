@@ -5,10 +5,10 @@ using gk1911.TheGame.Persistence;
 
 namespace gk1911.TheGame.Core
 {
-	public static class GameController
+	public static class GameManager
 	{
-		public static PlayerData PlayerData { get; private set; } = new PlayerData();
-		public static BattleController Battle { get; private set; } = new BattleController();
+		public static PlayerData PlayerData { get; } = new PlayerData();
+		public static BattleManager Battle { get; } = new BattleManager();
 
 		public static void LoadLevel()
 		{

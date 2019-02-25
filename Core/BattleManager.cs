@@ -5,7 +5,7 @@ using gk1911.TheGame.Model;
 
 namespace gk1911.TheGame.Core
 {
-	public class BattleController
+	public class BattleManager
 	{
 		public event Action<Map> MapSpawned;
 		public event Action<Unit> UnitSpawned;

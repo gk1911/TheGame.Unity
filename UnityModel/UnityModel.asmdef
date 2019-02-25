@@ -1,8 +1,8 @@
 {
-    "name": "Persistence",
+    "name": "UnityModel",
     "references": [
         "Model",
-        "Impl"
+        "Unity.TextMeshPro"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],
