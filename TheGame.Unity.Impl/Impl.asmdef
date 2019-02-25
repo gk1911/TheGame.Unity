@@ -1,8 +1,7 @@
 {
-    "name": "UnityModel",
+    "name": "TheGame.Unity.Impl",
     "references": [
-        "Model",
-        "Unity.TextMeshPro"
+        "TheGame.Unity.Model"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],

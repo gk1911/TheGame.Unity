@@ -2,7 +2,7 @@
 
 using UnityEngine;
 
-using gk1911.TheGame.Model;
+using gk1911.TheGame.Core.Model;
 
 namespace gk1911.TheGame.Unity.Core.Util
 {

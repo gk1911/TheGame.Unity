@@ -1,15 +1,16 @@
 {
-    "name": "UnityImpl",
+    "name": "TheGame.Unity.Model",
     "references": [
-        "Impl",
-        "UnityModel"
+        "Unity.TextMeshPro"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": true,
-    "precompiledReferences": [],
+    "precompiledReferences": [
+        "TheGame.Core.Model.dll"
+    ],
     "autoReferenced": true,
     "defineConstraints": []
 }

@@ -2,13 +2,13 @@
 
 using UnityEngine;
 
-using gk1911.TheGame.Model;
+using gk1911.TheGame.Core.Model;
 
 using gk1911.TheGame.Unity.Model;
 using gk1911.TheGame.Unity.Model.UI;
 using gk1911.TheGame.Unity.Core.Util;
 
-using CGM = gk1911.TheGame.Core.GameManager;
+using CGM = gk1911.TheGame.Core.Control.GameManager;
 
 namespace gk1911.TheGame.Unity.Core
 {

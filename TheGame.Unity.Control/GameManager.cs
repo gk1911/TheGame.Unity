@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-using CGM = gk1911.TheGame.Core.GameManager;
+using CGM = gk1911.TheGame.Core.Control.GameManager;
 
 namespace gk1911.TheGame.Unity.Core
 {

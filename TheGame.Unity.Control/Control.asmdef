@@ -1,15 +1,18 @@
 {
-    "name": "Persistence",
+    "name": "TheGame.Unity.Control",
     "references": [
-        "Model",
-        "Impl"
+        "TheGame.Unity.Model",
+        "Unity.TextMeshPro"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": true,
-    "precompiledReferences": [],
+    "precompiledReferences": [
+        "TheGame.Core.Control.dll",
+        "TheGame.Core.Model.dll"
+    ],
     "autoReferenced": true,
     "defineConstraints": []
 }
