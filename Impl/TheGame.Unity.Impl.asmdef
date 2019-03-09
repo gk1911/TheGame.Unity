@@ -1,7 +1,8 @@
 {
     "name": "TheGame.Unity.Impl",
     "references": [
-        "TheGame.Unity.Model"
+        "TheGame.Unity.Model",
+        "TheGame.Unity.Control"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],

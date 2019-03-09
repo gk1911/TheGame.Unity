@@ -8,7 +8,7 @@ using UnityEngine.UI;
 using gk1911.TheGame.Unity.Model;
 using gk1911.TheGame.Unity.Model.UI;
 
-namespace gk1911.TheGame.Unity.Core
+namespace gk1911.TheGame.Unity.Control
 {
 	internal class InputManager : MonoBehaviour
 	{

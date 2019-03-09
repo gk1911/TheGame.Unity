@@ -6,18 +6,23 @@ using gk1911.TheGame.Core.Model;
 
 using gk1911.TheGame.Unity.Model;
 using gk1911.TheGame.Unity.Model.UI;
-using gk1911.TheGame.Unity.Core.Util;
+using gk1911.TheGame.Unity.Control.Util;
 
 using CGM = gk1911.TheGame.Core.Control.GameManager;
 
-namespace gk1911.TheGame.Unity.Core
+namespace gk1911.TheGame.Unity.Control
 {
 	internal class BattleManager : MonoBehaviour
 	{
-		[SerializeField] private GameObject hexRoot = default;
-		[SerializeField] private GameObject unitRoot = default;
+		[SerializeField] private Transform hexRoot = default;
+		[SerializeField] private Transform unitRoot = default;
+
+		public Unit SelectedUnit { get; private set; }
 
 		private readonly List<HexController> hexControllers = new List<HexController>();
+		private readonly Dictionary<Unit, GameObject> unitGOs = new Dictionary<Unit, GameObject>();
+
+		private const string castingTrigger = "casting";
 
 		private BattleManager() { }
 
@@ -27,18 +32,23 @@ namespace gk1911.TheGame.Unity.Core
 		{
 			CGM.Battle.MapSpawned += InstantiateMap;
 			CGM.Battle.UnitSpawned += OnUnitSpawned;
+			CGM.Battle.UnitSelected += OnUnitSelected;
+			CGM.Battle.EffectActivated += OnEffectActivated;
+			CGM.Battle.UnitSelected += (unit) => GameManager.UI.Select(unit);
 			GameManager.Input.ClickInput += OnTransformClicked;
 			GameManager.Input.ButtonPressed += OnButtonPressed;
 		}
+
+		private void OnUnitSelected(Unit unit) => SelectedUnit = unit;
 
 		private void InstantiateMap(Map map)
 		{
 			for (int q = 0; q < map.Columns; q++) {
 				for (int r = 0; r < map.Rows; r++) {
 					Hex hex = map.Hexes[q, r];
-					GameObject prefab = new PrefabLoader().LoadPrefab(hex);
+					GameObject prefab = new PrefabLoader().Load(hex);
 					Vector3 position = GetPosition(hex);
-					GameObject gameObject = Instantiate(prefab, position, Quaternion.identity, hexRoot.transform);
+					GameObject gameObject = Instantiate(prefab, position, Quaternion.identity, hexRoot);
 					gameObject.name = prefab.name;
 					HexController HexController = gameObject.GetComponent<HexController>();
 					HexController.Hex = hex;
@@ -52,10 +62,20 @@ namespace gk1911.TheGame.Unity.Core
 		private void InstantiateUnit(Unit unit)
 		{
 			Hex hex = CGM.Battle.GetHex(unit);
-			GameObject prefab = new PrefabLoader().LoadPrefab(unit);
+			GameObject prefab = new PrefabLoader().Load(unit);
 			Vector3 position = GetPosition(hex);
-			GameObject gameObject = Instantiate(prefab, position, Quaternion.identity, unitRoot.transform);
+			GameObject gameObject = Instantiate(prefab, position, Quaternion.identity, unitRoot);
 			gameObject.name = prefab.name;
+			unitGOs.Add(unit, gameObject);
+		}
+
+		private void OnEffectActivated(Effect effect, Unit unit)
+		{
+			Animator animator = unitGOs[unit].GetComponentInChildren<Animator>();
+			animator.SetTrigger(castingTrigger);
+			if (effect.Damage != 0) {
+				GameManager.UI.UpdateHp(unit.Target);
+			}
 		}
 
 		private void OnTransformClicked(Transform transform)

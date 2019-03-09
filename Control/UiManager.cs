@@ -5,7 +5,7 @@ using gk1911.TheGame.Unity.Model.UI;
 
 using CGM = gk1911.TheGame.Core.Control.GameManager;
 
-namespace gk1911.TheGame.Unity.Core
+namespace gk1911.TheGame.Unity.Control
 {
 	internal class UiManager : MonoBehaviour
 	{
@@ -20,17 +20,16 @@ namespace gk1911.TheGame.Unity.Core
 
 		private void Prep()
 		{
-			Unit.HpChanged += OnHpChanged;
+			// TODO: make these method calls from Unity.GameManager
 			Unit.TargetChanged += OnTargetChanged;
-			CGM.Battle.UnitSelected += OnUnitSelected;
 		}
 
-		private void OnHpChanged(Unit unit)
+		public void UpdateHp(Unit unit)
 		{
-			if (unit == CGM.Battle.SelectedUnit) {
+			if (unit == GameManager.Battle.SelectedUnit) {
 				SetDataPanelValues(this.selectedUi, unit);
 			}
-			if (unit == CGM.Battle.SelectedUnit.Target) {
+			if (unit == GameManager.Battle.SelectedUnit.Target) {
 				SetDataPanelValues(this.targetUi, unit);
 			}
 		}
@@ -45,7 +44,7 @@ namespace gk1911.TheGame.Unity.Core
 			}
 		}
 
-		private void OnUnitSelected(Unit unit)
+		public void Select(Unit unit)
 		{
 			if (unit.Team == Team.Republic) {
 				abilityPanel.SetActive(true);

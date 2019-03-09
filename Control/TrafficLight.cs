@@ -5,7 +5,7 @@ using System.Reflection;
 
 using UnityEngine;
 
-namespace gk1911.TheGame.Unity.Core
+namespace gk1911.TheGame.Unity.Control
 {
 	internal class TrafficLight : MonoBehaviour
 	{

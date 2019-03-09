@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace gk1911.TheGame.Unity.Core
+namespace gk1911.TheGame.Unity.Control
 {
 	internal class CameraManager : MonoBehaviour
 	{

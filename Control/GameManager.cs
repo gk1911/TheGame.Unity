@@ -2,17 +2,26 @@
 
 using CGM = gk1911.TheGame.Core.Control.GameManager;
 
-namespace gk1911.TheGame.Unity.Core
+namespace gk1911.TheGame.Unity.Control
 {
-	internal class GameManager : MonoBehaviour
+	public class GameManager : MonoBehaviour
 	{
-		internal static InputManager Input { get; private set; }
+		[SerializeField] private InputManager _input = default;
+		internal static InputManager Input { get => instance._input; }
+		[SerializeField] private BattleManager _battle = default;
+		internal static BattleManager Battle { get => instance._battle; }
+		[SerializeField] private UiManager _ui = default;
+		internal static UiManager UI { get => instance._ui; }
+		[SerializeField] private VfxManager _vfx = default;
+		public static VfxManager VFX { get => instance._vfx; }
+
+		private static GameManager instance;
 
 		private GameManager() { }
 
 		private void Awake() => TrafficLight.Subscribe(this);
 
-		private void Init() => Input = GetComponent<InputManager>();
+		private void Init() => instance = this;
 
 		private void Begin() => CGM.LoadLevel();
 	}
